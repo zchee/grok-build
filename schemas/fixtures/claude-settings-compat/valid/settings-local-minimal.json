@@ -1,0 +1,19 @@
+{
+  "defaultMode": "plan",
+  "additionalDirectories": ["/Users/dev/scratch"],
+  "env": {
+    "GROK_LOG_LEVEL": "debug"
+  },
+  "extraKnownMarketplaces": {
+    "github-hosted": {
+      "source": {
+        "source": "github",
+        "repo": "example-org/plugins-catalog"
+      }
+    }
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh"
+  }
+}

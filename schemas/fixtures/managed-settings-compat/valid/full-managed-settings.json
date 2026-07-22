@@ -1,0 +1,32 @@
+{
+  "env": {
+    "DISABLE_TELEMETRY": true,
+    "DISABLE_FEEDBACK_COMMAND": "1"
+  },
+  "permissions": {
+    "allow": ["Bash(git:*)"],
+    "deny": ["Bash(curl:*)", "WebFetch"],
+    "ask": [],
+    "defaultMode": "bypassPermissions",
+    "disableBypassPermissionsMode": "disable"
+  },
+  "allowedMcpServers": [
+    { "serverUrl": "https://mcp.internal.example.com/*" },
+    { "command": "/opt/mcp-servers/filesystem" },
+    { "serverName": "github" }
+  ],
+  "deniedMcpServers": [
+    { "serverName": "untrusted-scraper" }
+  ],
+  "strictKnownMarketplaces": [
+    {
+      "source": "git",
+      "url": "https://github.com/example-org/approved-marketplace.git"
+    },
+    {
+      "source": "local",
+      "url": "/opt/marketplaces/internal"
+    }
+  ],
+  "managedSettingsSchemaVersion": 2
+}

@@ -1,0 +1,10 @@
+{
+  "extraKnownMarketplaces": {
+    "legacy-svn-catalog": {
+      "source": {
+        "source": "svn",
+        "url": "svn://example.com/repo/plugins"
+      }
+    }
+  }
+}

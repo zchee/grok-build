@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": ["Bash(git diff:*)", "Read(//Users/dev/project/**)"],
+    "deny": ["Bash(rm -rf /*)"],
+    "ask": ["Bash(git push:*)"],
+    "defaultMode": "acceptEdits",
+    "additionalDirectories": ["../shared-lib"]
+  },
+  "env": {
+    "NODE_ENV": "development",
+    "MAX_RETRIES": 3,
+    "DEBUG": true
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./scripts/pre-bash-check.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "beforeShellExecution": [
+      {
+        "hooks": [
+          {
+            "type": "http",
+            "url": "https://hooks.example.com/pre-shell",
+            "timeout": 5,
+            "env": { "HOOK_TOKEN": "abc123" }
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          { "type": "command", "command": "./scripts/run-tests.sh", "env": null }
+        ]
+      }
+    ]
+  },
+  "enabledPlugins": {
+    "code-formatter@internal-marketplace": true,
+    "legacy-linter@internal-marketplace": false
+  },
+  "extraKnownMarketplaces": {
+    "internal-marketplace": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/example-org/internal-marketplace.git"
+      }
+    },
+    "vendored-catalog": {
+      "source": {
+        "source": "local",
+        "path": "./vendor/catalog"
+      }
+    }
+  },
+  "apiKeyHelper": "/usr/local/bin/get-api-key.sh",
+  "model": "claude-opus-4",
+  "cleanupPeriodDays": 30,
+  "includeCoAuthoredBy": false
+}

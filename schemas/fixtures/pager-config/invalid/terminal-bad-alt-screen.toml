@@ -1,0 +1,6 @@
+# INVALID: alt_screen is the typed enum RawAltScreenMode
+# (auto|always|never, appearance/config.rs:784-795); other strings fail
+# the parse.
+
+[terminal]
+alt_screen = "sometimes"

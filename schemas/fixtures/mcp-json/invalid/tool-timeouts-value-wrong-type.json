@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "svc": {
+      "command": "npx",
+      "tool_timeouts": { "search": "thirty" }
+    }
+  }
+}

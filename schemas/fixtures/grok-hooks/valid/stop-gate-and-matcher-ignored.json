@@ -1,0 +1,20 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "*",
+        "hooks": [
+          { "type": "command", "command": "bin/verify.sh", "timeout": 300 }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": "code-reviewer",
+        "hooks": [
+          { "type": "command", "command": "bin/review-gate.sh" }
+        ]
+      }
+    ]
+  }
+}

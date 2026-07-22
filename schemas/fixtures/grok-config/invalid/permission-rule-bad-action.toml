@@ -1,0 +1,8 @@
+# INVALID: action "block" is not a RuleAction (allow|deny|ask,
+# permission.rs:38-45); the typed PermissionConfig parse rejects it
+# (load.rs:128-133).
+
+[[permission.rules]]
+action = "block"
+tool = "bash"
+pattern = "rm *"

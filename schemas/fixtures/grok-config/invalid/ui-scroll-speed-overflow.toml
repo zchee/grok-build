@@ -1,0 +1,5 @@
+# INVALID: scroll_speed is Option<u8> (ui_config.rs:56-58); 500
+# overflows u8 and fails the serde parse.
+
+[ui]
+scroll_speed = 500

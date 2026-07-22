@@ -1,0 +1,464 @@
+# Exercises EVERY legal top-level config.toml key (56 total):
+# 49 serde-visible agent::config::Config fields + folder_trust + dashboard
+# + campaigns + version_overrides + model + auth_provider + model_providers.
+
+# --- top-level scalars / opaque values (Config plain fields) ---
+default_auto_mode = false
+disable_web_search = false
+path_not_found_hints = true
+disabled_mcp_servers = ["legacy-server"]
+shortcuts = { toggle_theme = "ctrl+t" }
+hints = { last_shown = "undo" }
+desktop = { window_state = "maximized" }
+announcements = [{ id = "a1", message = "hello" }]
+
+[features]
+support_permission = true
+telemetry = "session_metrics"
+codebase_indexing = ["/Users/*/code*", "!/Users/*/old-*"]
+non_git_warning = false
+feedback = true
+managed_config = true
+lsp_tools = true
+tool_search = true
+web_fetch = false
+ask_user_question = true
+session_recap = true
+voice_mode = false
+two_pass_compaction = false
+video_gen = false
+image_gen_model_override = "grok-imagine-image-quality"
+write_file = true
+cancel_rewind = true
+auto_wake = true
+backend_tools = true
+compaction_mode = "summary"
+compaction_detail = "balanced"
+compaction_verbatim_input = true
+compaction_tool_choice = "auto"
+subagent_worktree_snapshot = false
+mcp_liveness_watchers = true
+mcp_auto_restart = true
+mcp_push_server_status = true
+mcp_recursive_config_watch = true
+
+[goal]
+enabled = true
+classifier_enabled = true
+verifier_count = 2
+planner_model = { model = "grok-4", agent_type = "grok-build-plan" }
+skeptic_models = [{ model = "grok-4", agent_type = "grok-build" }]
+
+[workflows]
+enabled = true
+
+[doom_loop_recovery]
+enabled = true
+max_threshold = 8
+max_retries = 2
+
+[worktree.auto_gc]
+enabled = true
+max_age_secs = 604800
+min_interval_secs = 3600
+dry_run = false
+include_orphan_snapshots = false
+include_rebuild = false
+rebuild_min_interval_secs = 86400
+
+[worktree.auto_gc.max_age_by_kind]
+session = 604800
+manual = "never"
+
+[auto_mode]
+enabled = false
+classifier_model = "grok-3-fast"
+
+[grok_com_config]
+grok_ws_origin = "https://grok.com"
+grok_ws_url = "wss://grok.com/ws"
+token_header = "x-grok-token"
+auth_provider_command = "$HOME/bin/mint-token"
+auth_token_ttl = 3600
+disable_api_key_auth = false
+force_login_team_uuid = ["team-a", "team-b"]
+
+[grok_com_config.oidc]
+issuer = "https://idp.example.com"
+client_id = "grok-cli"
+scopes = ["openid", "profile"]
+audience = "grok"
+
+[grok_com_config.oauth2]
+issuer = "https://auth.x.ai"
+client_id = "grok-build"
+referrer = "grok-build"
+
+[auth]
+preferred_method = "oidc"
+
+[ui]
+max_thoughts_width = 120
+theme = "groknight"
+fork_secondary_model = "grok-4"
+yolo = false
+compact_mode = false
+simple_mode = true
+permission_mode = "ask"
+default_selected_permission = "allow_once"
+show_timestamps = true
+show_timeline = false
+page_flip_on_send = true
+auto_dark_theme = "groknight"
+auto_light_theme = "grokday"
+scroll_speed = 50
+scroll_mode = "auto"
+invert_scroll = false
+scroll_lines = 3
+vim_mode = false
+render_mermaid = "auto"
+hunk_tracker_mode = "agent_only"
+voice_capture_mode = "hold"
+voice_stt_language = "en"
+mouse_reporting_toggle = false
+cancel_subagents_on_turn_cancel = "always_stop"
+remember_tool_approvals = false
+keep_text_selection = "flash"
+show_thinking_blocks = true
+group_tool_verbs = true
+collapsed_edit_blocks = false
+prompt_suggestions = true
+cursor_blink = false
+screen_mode = "fullscreen"
+combine_queued_prompts = false
+
+[ui.contextual_hints]
+undo = true
+plan_mode = true
+small_screen = false
+
+[ui.display_refresh]
+probe_enabled = true
+auto_cadence_enabled = false
+floor_ms = 8
+ceiling_ms = 16
+min_hz = 55
+max_hz = 165
+
+[toolset]
+file_toolset = "standard"
+
+[toolset.bash]
+timeout_secs = 120.0
+max_timeout_secs = 36000.0
+output_byte_limit = 100000
+cmd_prefix = ""
+auto_background_on_timeout = true
+foreground_block_budget_ms = 15000
+allow_background_operator = true
+login_shell_capture = false
+
+[toolset.web_search]
+model = "grok-4"
+
+[toolset.web_fetch]
+proxy_endpoint = "https://proxy.example.com"
+allowed_domains = ["example.com", "docs.rs"]
+allow_local = false
+
+[toolset.ask_user_question]
+timeout_enabled = true
+timeout_secs = 1800
+
+[toolset.hashline]
+scheme = "chunk"
+hash_len = 3
+chunk_size = 8
+
+[endpoints]
+xai_api_base_url = "https://api.x.ai"
+models_endpoint = "https://api.x.ai/v1/models"
+feedback_base_url = "https://feedback.example.com"
+deployment_key = "$GROK_DEPLOYMENT_KEY"
+asset_server_url = "https://assets.example.com"
+otel_traces_exporter = "otlp"
+otel_traces_export_interval = 5000
+
+[telemetry]
+enabled = true
+events_url = "https://events.example.com"
+mixpanel_enabled = false
+trace_upload = false
+otel_enabled = false
+otel_metrics_exporter = "none"
+otel_transport = "http/protobuf"
+otel_log_user_prompts = false
+otel_log_tool_details = false
+
+[session]
+auto_compact_threshold_percent = 85
+load_envrc = true
+
+[agent]
+name = "grok-build"
+system_prompt_label = "Grok"
+
+[repo_changes_dedup]
+enabled = true
+include_inline_fallback = false
+max_inline_bytes = 0
+dedup_untracked = true
+dedup_binary = true
+untracked_max_bytes = 0
+untracked_exclude_globs = ["*.lock"]
+
+[skills]
+paths = ["~/my-skills"]
+ignore = ["~/my-skills/wip"]
+disabled = ["noisy-skill"]
+server_skill_dirs = []
+bundled_skill_dirs = []
+
+[compat.cursor]
+skills = true
+rules = true
+
+[compat.claude]
+mcps = true
+hooks = false
+
+[compat.codex]
+sessions = false
+
+[plugins]
+paths = ["~/my-plugins/custom-tools"]
+disabled = ["user/a1b2c3d4/noisy-plugin"]
+enabled = ["project-plugin"]
+
+[feedback.user]
+name = ["os_user"]
+email = ["git_email"]
+email_domain = "example.com"
+
+[paths]
+extra_skill_dirs = ["~/.claude/skills"]
+extra_rule_dirs = ["~/.claude/rules"]
+
+[cli]
+auto_update = true
+show_tips = true
+channel = "stable"
+minimum_version = "0.1.0"
+session_picker_grouped = true
+
+[models]
+default = "grok-4"
+default_reasoning_effort = "high"
+web_search = "grok-4-fast"
+allowed_models = ["grok-*"]
+hidden_models = []
+disabled_models = []
+temperature = 0.7
+top_p = 0.95
+max_completion_tokens = 8192
+max_retries = 3
+inference_idle_timeout_secs = 120
+stream_tool_calls = true
+
+[models.extra_headers]
+x-custom = "1"
+
+[harness]
+block_for_upload = false
+upload_flush_timeout_secs = 60
+
+[relay]
+enabled = false
+
+[remote]
+secret = "$GROK_AGENT_SECRET"
+
+[hub]
+url = "wss://hub.x.ai/ws"
+
+[worktree_pool]
+enabled = true
+pool_size = 2
+file_count_threshold = 50000
+parallelism = 3
+
+[sandbox]
+profile = "workspace"
+auto_allow_bash = false
+
+[mcp_servers.github]
+command = "github-mcp"
+args = ["--stdio"]
+enabled = true
+
+[mcp_servers.linear]
+url = "https://mcp.linear.app/mcp"
+bearer_token_env_var = "LINEAR_TOKEN"
+
+[disabled_mcp_tools]
+github = ["delete_repo"]
+
+[subagents]
+enabled = true
+
+[subagents.models]
+explore = "grok-3-fast"
+
+[subagents.toggle]
+plan = true
+
+[subagents.roles.researcher]
+description = "Deep research agent"
+default_capability_mode = "read-only"
+model = "grok-4"
+
+[subagents.personas.concise]
+instructions = "Be extremely concise."
+
+[memory]
+enabled = false
+
+[memory.index]
+max_chunk_chars = 1600
+chunk_overlap_chars = 320
+
+[memory.embedding]
+provider = "api"
+dimensions = 1024
+
+[memory.search]
+max_results = 6
+min_score = 0.35
+vector_weight = 0.7
+text_weight = 0.3
+
+[memory.search.temporal_decay]
+enabled = true
+half_life_days = 7.0
+
+[memory.search.mmr]
+enabled = false
+lambda = 0.7
+
+[memory.search.source_weights]
+workspace = 1.0
+session = 1.0
+global = 1.0
+
+[memory.initial_injection]
+enabled = true
+
+[memory.session]
+save_on_end = true
+
+[memory.watcher]
+enabled = true
+stale_claim_secs = 60
+
+[memory.gc]
+max_age_days = 30
+
+[memory.dream]
+enabled = true
+min_hours = 4
+min_sessions = 3
+stale_lock_secs = 3600
+
+[compaction.memory_flush]
+enabled = true
+soft_threshold_tokens = 4000
+max_flush_write_chars = 8000
+
+[compaction.pruning]
+enabled = true
+keep_last_n_turns = 3
+soft_trim_threshold = 4000
+soft_trim_head = 1500
+soft_trim_tail = 1500
+hard_clear_age_turns = 10
+
+[managed_mcps]
+enabled = true
+gateway_tools_enabled = false
+
+[tips]
+tips = ["Try /goal to set a session goal."]
+exclude_default = false
+
+[[permission.rules]]
+action = "allow"
+tool = "bash"
+pattern = "git *"
+pattern_mode = "glob"
+
+[[permission.rules]]
+action = "deny"
+tool = "webfetch"
+pattern = "internal.example.com"
+pattern_mode = "domain"
+
+[tools]
+respect_gitignore = false
+disable_zdr_incompatible_tools = false
+
+[storage]
+cleanup_ttl_days = 30
+
+[suggestions]
+enabled = true
+ai_enabled = false
+debounce_ms = 50
+
+[marketplace]
+[[marketplace.sources]]
+name = "internal"
+git = "https://github.com/example/marketplace"
+branch = "main"
+
+[diagnostics]
+crash_handler = true
+
+[folder_trust]
+enabled = true
+
+[dashboard]
+enabled = true
+grouping = "state"
+pinned = ["session:abc123"]
+reorder = ["session:abc123", "session:def456"]
+
+[[campaigns]]
+id = "spring-release"
+[campaigns.models]
+default = "grok-4"
+
+[[version_overrides]]
+minimum_version = "1.7.0"
+[version_overrides.features]
+web_fetch = true
+
+[[version_overrides]]
+minimum_version = "1.8.0"
+maximum_version = "1.9.999"
+[version_overrides.features]
+video_gen = true
+
+[model."grok-4-custom"]
+model = "grok-4"
+base_url = "https://api.example.com/v1"
+env_key = ["MY_API_KEY", "FALLBACK_KEY"]
+context_window = 256000
+temperature = 0.5
+supports_reasoning_effort = true
+
+[auth_provider.corp]
+command = "corp-auth --mint"
+
+[model_providers.azure]
+base_url = "https://example.openai.azure.com"
+auth_provider = "corp"

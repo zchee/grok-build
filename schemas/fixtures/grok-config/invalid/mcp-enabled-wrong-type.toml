@@ -1,0 +1,7 @@
+# INVALID: enabled is a typed bool on McpServerConfig (mcp.rs:170-171);
+# a string fails the deserialize (mcp_servers is a typed HashMap on the
+# root Config, so the whole load errors).
+
+[mcp_servers.github]
+command = "github-mcp"
+enabled = "yes"

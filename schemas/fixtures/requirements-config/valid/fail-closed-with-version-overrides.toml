@@ -1,0 +1,30 @@
+fail_closed = true
+
+[features]
+telemetry = true
+web_fetch = false
+remote_fetch = true
+
+[telemetry]
+trace_upload = false
+
+[cli]
+minimum_version = "1.8.0"
+channel = "stable"
+
+[endpoints]
+xai_api_base_url = "https://api.x.ai"
+
+[sandbox]
+profile = "strict"
+
+[[version_overrides]]
+minimum_version = "1.7.0"
+[version_overrides.features]
+telemetry = true
+
+[[version_overrides]]
+minimum_version = "1.8.0"
+maximum_version = "1.9.999"
+[version_overrides.features.telemetry]
+enabled = true

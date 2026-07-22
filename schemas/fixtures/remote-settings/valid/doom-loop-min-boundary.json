@@ -1,0 +1,7 @@
+{
+  "doom_loop_recovery": {
+    "enabled": true,
+    "max_threshold": 2,
+    "max_retries": 0
+  }
+}

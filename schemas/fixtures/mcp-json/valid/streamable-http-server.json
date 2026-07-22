@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "sentry": {
+      "type": "http",
+      "url": "https://mcp.sentry.dev/mcp",
+      "bearer_token_env_var": "SENTRY_MCP_TOKEN",
+      "oauth_scopes": ["project:read"],
+      "enabled": true,
+      "tool_timeouts": { "search_issues": 30 }
+    }
+  }
+}

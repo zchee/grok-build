@@ -1,0 +1,4 @@
+[[version_overrides]]
+minimum_version = 170
+[version_overrides.features]
+telemetry = true

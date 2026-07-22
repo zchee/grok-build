@@ -1,0 +1,12 @@
+{
+  "gopls": {
+    "command": "gopls",
+    "extensionToLanguage": { ".go": "go" },
+    "initializationOptions": { "usePlaceholders": true },
+    "workspaceFolder": "${workspaceRoot}",
+    "startupTimeout": 12000,
+    "shutdownTimeout": 3000,
+    "restartOnCrash": true,
+    "maxRestarts": 2
+  }
+}

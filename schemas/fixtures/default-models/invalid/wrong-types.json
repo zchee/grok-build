@@ -1,0 +1,10 @@
+{
+  "default": "grok-fast",
+  "models": [
+    {
+      "model": "grok-fast",
+      "context_window": "500000",
+      "auto_compact_threshold_percent": 150
+    }
+  ]
+}

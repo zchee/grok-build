@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "defaultMode": "default"
+  },
+  "allowedMcpServers": [
+    { "serverName": "docs-search" }
+  ],
+  "policyOwner": "it-security@example.com"
+}

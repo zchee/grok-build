@@ -1,0 +1,6 @@
+{
+  "rust-analyzer": {
+    "command": "rust-analyzer",
+    "transport": "http"
+  }
+}

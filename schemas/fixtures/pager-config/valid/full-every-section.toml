@@ -1,0 +1,107 @@
+# Exercises every pager.toml section and key, including all three
+# OptionalColor spellings (named, hex, [r,g,b]) plus "none"
+# (appearance/config.rs:1614-1695).
+
+disable_plugins = false
+show_plan_chip = true
+
+[terminal]
+alt_screen = "auto"
+minimal = false
+minimal_live_rows = 10
+minimal_max_commit_rows = 2000
+
+[animation]
+fps = 30
+wave_rows = 32
+show_fps = false
+
+[prompt]
+collapse_unfocused = true
+mouse_hover = true
+show_prefix = true
+
+[scrollback.layout]
+outer_vpad = 1
+outer_hpad_left = 2
+outer_hpad_right = 2
+block_pad_left = 2
+block_pad_right = 2
+
+[scrollback.scrollbar]
+enabled = true
+gap_left = 0
+gap_right = 0
+scrollbar_bg = "none"
+scrollbar_fg = "#1a2b3c"
+
+[scrollback.scroll]
+margin = 0
+min_page_fraction = 25
+follow_indicator = "center"
+follow_auto_select = true
+follow_by_overscroll = true
+anchor_on_fold = true
+respect_manual_folds = false
+
+[scrollback.display]
+line_under_last_entry = false
+collapsed_accent_char = "❙"
+dim_accent = 0.5
+group_selection_split = true
+highlight_overlays_border = false
+expandable_indicator = true
+expandable_indicator_running = true
+expandable_indicator_char = "›"
+selection_buttons = false
+sticky_headers = true
+tab_width = 4
+group_max_visible = 10
+
+[scrollback.blocks.edit]
+indent = true
+vpad = false
+bg = "none"
+accent_bg = false
+accent = "BLUE"
+gutter_bg = false
+indent_bg = false
+line_summary = false
+expanded_by_default = true
+hunk_separator = "…"
+dual_line_numbers = false
+
+[scrollback.blocks.prompt]
+vpad = true
+bg = "light"
+accent_bg = false
+min_lines = 2
+show_prefix = true
+
+[scrollback.blocks.thinking]
+accent = [128, 128, 160]
+accent_enabled = true
+bg_blend = 70
+truncated_lines = 3
+animate = true
+header = true
+header_bright = false
+
+[scrollback.blocks.tool]
+muted_collapsed = true
+dim_details = true
+bullet = "diamond"
+
+[scrollback.blocks.list_dir]
+terminal_bg = true
+
+[scrollback.blocks.execute]
+first_lines = 2
+last_lines = 3
+accent_enabled = true
+running_accent = "#f0f"
+header_style = "label"
+muted_command_collapsed = true
+
+[todo]
+badge_format = "colon"

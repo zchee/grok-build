@@ -1,0 +1,9 @@
+{
+  "bad-marketplace": {
+    "source": {
+      "source": "ftp",
+      "url": "ftp://example.com/plugins"
+    },
+    "installLocation": "/tmp/bad-marketplace"
+  }
+}

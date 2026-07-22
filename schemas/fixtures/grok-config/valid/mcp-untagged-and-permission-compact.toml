@@ -1,0 +1,66 @@
+# Serde-subtlety proof fixture: every entry below is ACCEPTED by the real
+# untagged McpServerTransportConfig deserializer (mcp.rs:34-67) and must
+# therefore VALIDATE against the schema.
+
+# Stdio: command is the discriminator.
+[mcp_servers.stdio-server]
+command = "my-mcp"
+args = ["--stdio"]
+cwd = "/tmp"
+
+[mcp_servers.stdio-server.env]
+TOKEN = "$MY_TOKEN"
+
+# StreamableHttp via the urlTemplate alias spelling.
+[mcp_servers.http-alias]
+urlTemplate = "https://mcp.example.com/v1/mcp"
+
+# StreamableHttp via the url_template alias spelling, marked SSE.
+[mcp_servers.sse-server]
+url_template = "https://mcp.example.com/sse"
+type = "sse"
+
+# BOTH command and url: untagged picks Stdio first; url is an ignored
+# unknown field — serde ACCEPTS this, so the schema must too.
+[mcp_servers.both-fields]
+command = "my-mcp"
+url = "https://ignored.example.com"
+
+# NEITHER command nor url: url carries #[serde(default)] (mcp.rs:48-49),
+# so this VALIDLY deserializes as StreamableHttp with url = "" (the server
+# is only dropped later at ACP conversion, mcp.rs:373-375).
+[mcp_servers.empty-http]
+enabled = false
+
+# Wrong-typed command: Stdio fails, StreamableHttp ignores the unknown
+# key — serde ACCEPTS this too (untagged first-match semantics).
+[mcp_servers.weird-but-legal]
+command = 123
+url = "https://real.example.com/mcp"
+
+# OAuth block is camelCase on the wire (mcp.rs:69-80).
+[mcp_servers.oauth-server]
+url = "https://mcp.example.com/mcp"
+startup_timeout_sec = 30
+tool_timeout_sec = 120
+
+[mcp_servers.oauth-server.oauth]
+clientId = "grok"
+clientSecretEnvVar = "MCP_SECRET"
+scopes = ["read"]
+callbackPort = 8976
+
+[mcp_servers.oauth-server.tool_timeouts]
+search = 30
+
+# Compact permission form (deny/allow/ask string arrays) — tried before
+# the verbose [[permission.rules]] form (resolution.rs:97-145).
+[permission]
+allow = ["Bash(git *)", "Read(**)"]
+deny = ["WebFetch(domain:internal.example.com)"]
+ask = ["Edit(**)"]
+
+# Legacy bool form of keep_text_selection (true maps to "hold",
+# ui_config.rs:219-237).
+[ui]
+keep_text_selection = true

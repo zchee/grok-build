@@ -1,0 +1,9 @@
+{
+  "name": "bad-marketplace",
+  "plugins": [
+    {
+      "description": "Entry missing the required name field",
+      "source": "./plugins/nameless"
+    }
+  ]
+}
