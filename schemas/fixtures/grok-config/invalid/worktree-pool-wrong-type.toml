@@ -1,0 +1,7 @@
+# INVALID: pool_size must be an integer (WorktreePoolConfig.pool_size:
+# Option<usize>, agent/config.rs:1143-1144); a string fails the strict
+# root Config deserialize in new_from_toml_cfg.
+
+[worktree_pool]
+enabled = true
+pool_size = "big"

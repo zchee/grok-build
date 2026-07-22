@@ -1,0 +1,6 @@
+# INVALID: [features] telemetry accepts bool or string (untagged
+# TelemetryModeValue, xai-grok-telemetry/src/config.rs:65-85); an
+# integer matches neither variant and fails the parse.
+
+[features]
+telemetry = 5

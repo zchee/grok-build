@@ -1,0 +1,9 @@
+[profiles.devbox]
+extends = "workspace"
+restrict_network = true
+read_only = ["/data"]
+deny = ["/data/private"]
+
+[profiles.ci]
+extends = "strict"
+read_write = ["/tmp/ci-artifacts"]

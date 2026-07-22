@@ -1,0 +1,29 @@
+{
+  "version": 2,
+  "plugins": {
+    "my-lsp@marketplace-a": [
+      {
+        "scope": "user",
+        "installPath": "/Users/alice/.claude/plugins/cache/marketplace-a/my-lsp/1.0.0",
+        "version": "1.0.0"
+      }
+    ],
+    "my-tool@marketplace-b": [
+      {
+        "scope": "user",
+        "installPath": "/Users/alice/.claude/plugins/cache/marketplace-b/my-tool/2.0.0",
+        "version": "2.0.0"
+      }
+    ],
+    "local-plug@mp": [
+      {
+        "scope": "local",
+        "projectPath": "/Users/alice/code/my-repo",
+        "installPath": "/Users/alice/.claude/plugins/cache/mp/local-plug"
+      }
+    ],
+    "bare-key-no-marketplace": [
+      { "installPath": "/Users/alice/.claude/plugins/cache/bare/bare-key-no-marketplace" }
+    ]
+  }
+}

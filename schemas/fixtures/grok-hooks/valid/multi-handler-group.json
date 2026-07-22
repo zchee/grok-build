@@ -1,0 +1,13 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          { "type": "command", "command": "a.sh" },
+          { "type": "command", "command": "b.sh", "env": {} }
+        ]
+      }
+    ]
+  }
+}

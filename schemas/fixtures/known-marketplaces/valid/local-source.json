@@ -1,0 +1,9 @@
+{
+  "local-dev": {
+    "source": {
+      "source": "local",
+      "path": "~/dev/my-plugins"
+    },
+    "installLocation": "/Users/dev/dev/my-plugins"
+  }
+}

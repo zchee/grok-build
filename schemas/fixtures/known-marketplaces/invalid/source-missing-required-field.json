@@ -1,0 +1,8 @@
+{
+  "incomplete": {
+    "source": {
+      "source": "github"
+    },
+    "installLocation": "/tmp/incomplete"
+  }
+}

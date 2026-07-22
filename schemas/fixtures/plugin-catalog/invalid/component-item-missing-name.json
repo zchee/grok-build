@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "plugins": {
+    "p": {
+      "components": {
+        "skills": [{ "description": "no name field here" }]
+      }
+    }
+  }
+}

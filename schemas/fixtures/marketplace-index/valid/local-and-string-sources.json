@@ -1,0 +1,25 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "test-marketplace",
+  "description": "Test marketplace",
+  "owner": { "name": "Test", "email": "test@example.com" },
+  "plugins": [
+    {
+      "name": "test-plugin",
+      "version": "1.0.0",
+      "description": "A test plugin",
+      "category": "development",
+      "author": { "name": "Test Author" },
+      "source": { "type": "local", "path": "./plugins/test-plugin" },
+      "homepage": "https://example.com",
+      "tags": ["test", "example"],
+      "keywords": ["kw1", "kw2"],
+      "domains": ["example.com"]
+    },
+    {
+      "name": "acme-browser",
+      "description": "Browser plugin",
+      "source": "./plugins/acme-browser"
+    }
+  ]
+}

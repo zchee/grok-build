@@ -1,0 +1,7 @@
+{
+  "plugins": {
+    "solo-plugin": [
+      { "installPath": "/Users/alice/.claude/plugins/cache/solo/solo-plugin" }
+    ]
+  }
+}

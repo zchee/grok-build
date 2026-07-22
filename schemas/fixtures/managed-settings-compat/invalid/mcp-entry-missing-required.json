@@ -1,0 +1,5 @@
+{
+  "allowedMcpServers": [
+    { "description": "a server entry with none of serverUrl, command, or serverName" }
+  ]
+}

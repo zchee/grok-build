@@ -1,0 +1,10 @@
+[folders."/Users/alice/code/repo-a"]
+trusted = true
+decided_at = 1753100000
+
+[folders."/Users/alice/code/repo-b"]
+trusted = false
+decided_at = 1753150000
+
+[folders."/Users/alice/code/repo-c"]
+trusted = true

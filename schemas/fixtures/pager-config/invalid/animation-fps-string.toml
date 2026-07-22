@@ -1,0 +1,5 @@
+# INVALID: fps is a plain u8 (appearance/config.rs:1081); a string fails
+# the RawAppearanceConfig deserialize.
+
+[animation]
+fps = "fast"

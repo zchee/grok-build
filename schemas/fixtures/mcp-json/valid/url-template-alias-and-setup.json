@@ -1,0 +1,32 @@
+{
+  "mcpServers": {
+    "acme": {
+      "type": "http",
+      "urlTemplate": "{{url}}",
+      "setup": {
+        "fields": [
+          {
+            "id": "site",
+            "label": "Site",
+            "type": "select",
+            "required": true,
+            "default": "us1",
+            "options": [
+              { "label": "US1", "value": "us1" },
+              { "label": "US5", "value": "us5" }
+            ]
+          }
+        ],
+        "variables": {
+          "url": {
+            "from": "site",
+            "map": {
+              "us1": "https://mcp.example.com/v1/mcp",
+              "us5": "https://mcp.us5.example.com/v1/mcp"
+            }
+          }
+        }
+      }
+    }
+  }
+}

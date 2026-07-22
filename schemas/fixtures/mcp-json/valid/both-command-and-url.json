@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "hybrid": {
+      "command": "./servers/hybrid",
+      "url": "https://example.com/mcp",
+      "enabled": true
+    }
+  }
+}

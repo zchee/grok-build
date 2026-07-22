@@ -1,0 +1,6 @@
+# INVALID: bullet is the typed kebab-case enum RawToolBullet
+# (none|dot|small-circle|circle|small-triangle|triangle|diamond,
+# appearance/config.rs:1012-1031); "star" fails the parse.
+
+[scrollback.blocks.tool]
+bullet = "star"

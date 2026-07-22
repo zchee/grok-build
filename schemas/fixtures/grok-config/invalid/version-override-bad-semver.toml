@@ -1,0 +1,8 @@
+# INVALID: minimum_version must be valid semver; an unparseable value is
+# a HARD load error (version_overrides.rs:60-74 propagated as io::Error
+# at loader.rs:405-408).
+
+[[version_overrides]]
+minimum_version = "not-semver"
+[version_overrides.features]
+web_fetch = true

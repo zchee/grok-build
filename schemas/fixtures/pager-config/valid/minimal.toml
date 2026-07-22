@@ -1,0 +1,8 @@
+# Minimal pager.toml — every key is optional (#[serde(default)] on every
+# Raw* struct, appearance/config.rs:729-731).
+
+[animation]
+fps = 24
+
+[scrollback.scroll]
+respect_manual_folds = true

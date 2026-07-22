@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "plugins": {
+    "superpowers": {
+      "sha": "61f1903bed7b322c9745f6ba67095bc006de7e63",
+      "components": {
+        "skills": [
+          { "name": "brainstorming", "description": "Structured ideation" }
+        ],
+        "commands": [{ "name": "/brainstorm" }],
+        "hooks": [{ "name": "PreToolUse", "description": "Bash" }]
+      }
+    }
+  }
+}

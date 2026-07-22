@@ -1,0 +1,20 @@
+{
+  "rust-analyzer": {
+    "command": "rust-analyzer",
+    "args": [],
+    "transport": "stdio",
+    "env": { "RA_LOG": "info" },
+    "extensions": { ".rs": "rust" },
+    "initialization_options": { "cargo": { "features": "all" } },
+    "workspace_folder": "${workspaceRoot}",
+    "startup_timeout": 20000,
+    "shutdown_timeout": 5000,
+    "restart_on_crash": true,
+    "max_restarts": 5
+  },
+  "typescript-language-server": {
+    "command": "typescript-language-server",
+    "args": ["--stdio"],
+    "extensions": { ".ts": "typescript", ".tsx": "typescriptreact" }
+  }
+}

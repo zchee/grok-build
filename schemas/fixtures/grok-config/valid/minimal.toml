@@ -1,0 +1,10 @@
+# Minimal but realistic user config — every top-level key is optional
+# (agent::config::Config deep-merges onto Config::default() before
+# deserializing, agent/config.rs:2007-2019).
+
+[models]
+default = "grok-4"
+
+[ui]
+theme = "groknight"
+vim_mode = true

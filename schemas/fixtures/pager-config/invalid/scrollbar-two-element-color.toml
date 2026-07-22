@@ -1,0 +1,6 @@
+# INVALID: an OptionalColor array must be exactly [r, g, b] ([u8; 3],
+# appearance/config.rs:1682-1687); a 2-element array matches neither the
+# Rgb nor the Text variant and fails the parse.
+
+[scrollback.scrollbar]
+scrollbar_bg = [255, 0]

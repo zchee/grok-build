@@ -1,0 +1,7 @@
+{
+  "name": "my-plugin",
+  "marketplace": true,
+  "installState": "active",
+  "futureField": { "nested": "value" },
+  "outputStyles": "./styles/"
+}

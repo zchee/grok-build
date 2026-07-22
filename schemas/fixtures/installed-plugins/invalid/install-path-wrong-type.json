@@ -1,0 +1,9 @@
+{
+  "plugins": {
+    "my-lsp@marketplace-a": [
+      {
+        "installPath": 12345
+      }
+    ]
+  }
+}

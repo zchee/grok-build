@@ -1,0 +1,15 @@
+{
+  "name": "sentry",
+  "hooks": {
+    "hooks": {
+      "PostToolUse": [
+        { "hooks": [ { "type": "command", "command": "lint" } ] }
+      ]
+    }
+  },
+  "mcpServers": {
+    "mcpServers": {
+      "sentry": { "type": "http", "url": "https://mcp.sentry.dev/mcp" }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "default": "grok-fast",
+  "models": [
+    { "name": "Grok Fast, missing the required model id" }
+  ]
+}

@@ -1,0 +1,3 @@
+{
+  "jemalloc_heap_profile_thresholds_bytes": ["2G", 5368709120]
+}

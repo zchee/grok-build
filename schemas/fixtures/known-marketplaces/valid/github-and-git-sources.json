@@ -1,0 +1,18 @@
+{
+  "my-marketplace": {
+    "source": {
+      "source": "github",
+      "repo": "anthropics/claude-plugins-official"
+    },
+    "installLocation": "/Users/dev/.claude/plugins/repos/my-marketplace",
+    "lastUpdated": "2026-04-10T00:00:00Z",
+    "autoUpdate": true
+  },
+  "my-git-marketplace": {
+    "source": {
+      "source": "git",
+      "url": "git@github.com:org/repo.git"
+    },
+    "installLocation": "/Users/dev/.claude/plugins/repos/my-git-marketplace"
+  }
+}

@@ -1,0 +1,8 @@
+# INVALID: pattern_mode "regex" is not a PatternMode (glob|domain,
+# permission.rs:24-31).
+
+[[permission.rules]]
+action = "allow"
+tool = "webfetch"
+pattern = ".*\\.example\\.com"
+pattern_mode = "regex"

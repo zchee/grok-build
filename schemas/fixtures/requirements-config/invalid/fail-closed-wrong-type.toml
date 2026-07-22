@@ -1,0 +1,4 @@
+fail_closed = "yes"
+
+[features]
+telemetry = true

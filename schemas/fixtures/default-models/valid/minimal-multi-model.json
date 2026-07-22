@@ -1,0 +1,7 @@
+{
+  "default": "grok-fast",
+  "models": [
+    { "model": "grok-fast" },
+    { "model": "grok-thorough", "name": "Grok Thorough" }
+  ]
+}

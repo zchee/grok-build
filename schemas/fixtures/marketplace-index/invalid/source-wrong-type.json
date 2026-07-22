@@ -1,0 +1,9 @@
+{
+  "name": "bad-marketplace",
+  "plugins": [
+    {
+      "name": "bad-source",
+      "source": 12345
+    }
+  ]
+}

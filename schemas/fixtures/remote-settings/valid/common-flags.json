@@ -1,0 +1,20 @@
+{
+  "leader_mode": true,
+  "release_channel": "alpha",
+  "file_toolset": "hashline",
+  "telemetry_mode": "session-metrics",
+  "permission_mode": "always-approve",
+  "compaction_mode": "segments",
+  "compaction_detail": "balanced",
+  "memory_enabled": true,
+  "memory_search_max_results": 20,
+  "memory_search_min_score": 0.55,
+  "inference_idle_timeout_secs": 180,
+  "max_mcp_output_bytes": 20000,
+  "default_model": "grok-4",
+  "web_fetch_enabled": true,
+  "web_fetch_allowed_domains": ["docs.rs", "example.com"],
+  "tips": ["Try /recap to catch up", "Use worktrees for parallel work"],
+  "auto_compact_threshold_percent": 85,
+  "future_remote_field": 42
+}
