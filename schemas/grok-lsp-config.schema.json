@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/xai-org/grok-build/main/schemas/lsp-config.schema.json",
+  "$id": "https://raw.githubusercontent.com/xai-org/grok-build/main/schemas/grok-lsp-config.schema.json",
   "title": "Grok LSP Server Configuration",
   "description": "`~/.grok/lsp.json` (user) and `<cwd>/.grok/lsp.json` (project) — a flat JSON object mapping server name to `LspServerConfig`, NOT wrapped in an outer key. Parsed directly via `serde_json::from_str::<BTreeMap<String, LspServerConfig>>`; a missing/unreadable file yields an empty map (no error). Project config is gated by folder trust: `filter_project_lsp_when_untrusted` drops project-sourced servers entirely when the workspace is untrusted, and the project-file presence itself is one of the signals used by the folder-trust prompt gate. User config is the base; project config overrides by server name; a `plugin.json` manifest's inline `lspServers` value shares this exact same `BTreeMap<String, LspServerConfig>` shape and only fills in server names not already present from user/project (`.or_insert_with`, never overrides) — so this one definition covers both the standalone file and the plugin-manifest-embedded form.",
   "type": "object",

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/xai-org/grok-build/main/schemas/remote-settings.schema.json",
+  "$id": "https://raw.githubusercontent.com/xai-org/grok-build/main/schemas/grok-remote-settings.schema.json",
   "title": "Grok Build remote settings (GET /v1/settings)",
   "description": "Informational schema — tracks the `RemoteSettings` struct as of SOURCE_REV 9b8d35b46d959c042ea9aa31cbbebbd1f0c5c527. Server-controlled payload fetched from cli-chat-proxy `GET /v1/settings`; NOT a user-authored config file. Every field is `Option`/`Vec` with `#[serde(default)]`, so nothing is required, unknown keys are tolerated, and `null` deserializes to `None`. Several nested values use tolerant deserializers that coerce wrong types to `None` rather than failing the parse; those fields are described as permissive here. Numeric clamps document the client-honored range (the resolver clamps out-of-range values).",
   "type": "object",

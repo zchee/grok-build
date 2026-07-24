@@ -22,7 +22,7 @@ Runs five checks and emits a machine-readable JSON summary on stdout
    ``crates/codegen/xai-grok-hooks/examples/hooks/*.json`` against
    ``grok-hooks.schema.json`` and
    ``crates/codegen/xai-grok-models/default_models.json`` against
-   ``default-models.schema.json``.
+   ``grok-default-models.schema.json``.
 4. Citation drift check: every ``[src: <path>:<lines>]`` provenance
    suffix embedded in the schemas is verified against the working tree
    (path exists, largest cited line <= file line count). This check is
@@ -59,7 +59,7 @@ FIXTURES_DIR = SCHEMAS_DIR / "fixtures"
 
 REAL_CORPUS: dict[str, list[str]] = {
     "grok-hooks.schema.json": ["crates/codegen/xai-grok-hooks/examples/hooks/*.json"],
-    "default-models.schema.json": [
+    "grok-default-models.schema.json": [
         "crates/codegen/xai-grok-models/default_models.json"
     ],
 }
@@ -150,7 +150,7 @@ def load_schemas() -> dict[str, dict[str, Any]]:
 def build_registry(schemas: dict[str, dict[str, Any]]) -> Registry:
     """Register each schema under both its ``$id`` and its bare filename.
 
-    ``requirements-config.schema.json`` carries a relative
+    ``grok-requirements-config.schema.json`` carries a relative
     ``$ref: "./grok-config.schema.json"``; resolving it against the
     referrer's ``$id`` base URI lands on ``grok-config.schema.json``'s
     ``$id``, and the filename mapping covers resolvers that treat the
@@ -218,7 +218,14 @@ def validate_fixtures(
 ) -> None:
     """Validate valid/ and invalid/ fixture documents for every schema."""
     for name, contents in schemas.items():
-        fixture_dir = FIXTURES_DIR / name.removesuffix(".schema.json")
+        # Fixture directory names are left as authored, so the schema basename
+        # resolves directly when that directory exists (``grok-config``,
+        # ``grok-hooks``) and falls back to the unprefixed form otherwise --
+        # the ``grok-`` prefix is carried by the schema files alone.
+        stem = name.removesuffix(".schema.json")
+        fixture_dir = FIXTURES_DIR / stem
+        if not fixture_dir.is_dir():
+            fixture_dir = FIXTURES_DIR / stem.removeprefix("grok-")
         if not fixture_dir.is_dir():
             results.failures.append(
                 {

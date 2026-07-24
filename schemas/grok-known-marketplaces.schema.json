@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/xai-org/grok-build/main/schemas/known-marketplaces.schema.json",
+  "$id": "https://raw.githubusercontent.com/xai-org/grok-build/main/schemas/grok-known-marketplaces.schema.json",
   "title": "Known Marketplaces Registry",
   "description": "`~/.claude/plugins/known_marketplaces.json` (and the structurally identical `extraKnownMarketplaces` value shape embedded in `.claude/settings.json`/`settings.local.json`). Top-level object keyed by marketplace name. IMPORTANT: this single file is read by two independent Rust consumers with two independently-required fields per entry, so a real, fully-functional file must carry BOTH: (1) `source` — required by `SettingsEntry { source: SettingsSource }`, used to auto-register marketplace sources; and (2) `installLocation` — required by `KnownMarketplaceEntry { install_location: PathBuf }` (camelCase), used to discover installed plugin directories under the marketplace root. Neither consumer uses `deny_unknown_fields`, so each tolerates the other's required key as an ignored extra field; this schema documents the union so the file satisfies both.",
   "type": "object",

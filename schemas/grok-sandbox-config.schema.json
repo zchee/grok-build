@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/xai-org/grok-build/main/schemas/sandbox-config.schema.json",
+  "$id": "https://raw.githubusercontent.com/xai-org/grok-build/main/schemas/grok-sandbox-config.schema.json",
   "title": "Grok Sandbox Custom Profiles",
   "description": "`~/.grok/sandbox.toml` (global) and `<workspace>/.grok/sandbox.toml` (project) — a map of custom sandbox profile name to `ProfileConfig`, under `[profiles.<name>]`. Only CUSTOM profile names live here; the five built-ins (`workspace` default, `devbox`, `read-only`/`readonly`, `strict`, `off`/`none`) are code-resolved and never looked up in this table. `load_sandbox_config` loads the global file first as the base `SandboxConfig`, then merges the project file ADDITIVELY ONLY (`config.profiles.entry(name).or_insert(profile)`) — a project file CANNOT redefine or override a profile name already present in the global file; this prevents a workspace from hollowing out a trusted custom profile while keeping its name. `deny` paths are kernel-enforced (read + write/rename) on both platforms regardless of which base profile was extended.",
   "type": "object",

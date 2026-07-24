@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/xai-org/grok-build/main/schemas/campaigns-state.schema.json",
+  "$id": "https://raw.githubusercontent.com/xai-org/grok-build/main/schemas/grok-campaigns-state.schema.json",
   "title": "Campaigns Dismiss State",
   "description": "`$GROK_HOME/campaigns_state.json` — on-disk record of dismissed campaign announcement ids. Read fail-open (missing/malformed file yields an empty dismissed set) via `load_dismissed_ids_from_home`; written by the shell's dismiss action using the same `CampaignsState` struct so read/write can't drift. No `rename_all` attribute on the struct, so the JSON key is the literal Rust field name `dismissed_ids` (snake_case, not camelCase).",
   "type": "object",
