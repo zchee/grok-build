@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/xai-org/grok-build/main/schemas/plugin-manifest.schema.json",
+  "$id": "https://raw.githubusercontent.com/xai-org/grok-build/main/schemas/grok-plugin-manifest.schema.json",
   "title": "Grok Build / Claude plugin manifest",
   "description": "Schema for plugin.json, .grok-plugin/plugin.json, and .claude-plugin/plugin.json, checked in that priority order within a plugin root (first found wins); if none is found the plugin still functions via convention-based discovery. Forward-compatible: unknown top-level fields are silently ignored (no deny_unknown_fields), so this schema never restricts additional properties.",
   "type": "object",

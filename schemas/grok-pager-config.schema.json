@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/xai-org/grok-build/main/schemas/pager-config.schema.json",
+  "$id": "https://raw.githubusercontent.com/xai-org/grok-build/main/schemas/grok-pager-config.schema.json",
   "title": "Grok pager appearance configuration (~/.grok/pager.toml)",
   "description": "Schema for ~/.grok/pager.toml (path resolved via display_user_grok_path(\"pager.toml\")), the pager-owned, hot-reloadable appearance/rendering config. Models the TOML-facing RawAppearanceConfig; every section carries #[serde(default)] so any subset of keys is valid and an empty file is valid. No struct uses deny_unknown_fields, so unknown keys are tolerated everywhere. The settings-modal registry (crates/codegen/xai-grok-pager/src/settings/) is deliberately NOT part of this schema: 43 of its 46 entries persist into [ui]/[cli]/[toolset.ask_user_question] of ~/.grok/config.toml (see grok-config.schema.json); the single registry entry that writes to pager.toml is [scrollback.scroll].respect_manual_folds.",
   "x-source-rev": "9b8d35b46d959c042ea9aa31cbbebbd1f0c5c527",

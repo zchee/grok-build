@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/xai-org/grok-build/main/schemas/mcp-json.schema.json",
+  "$id": "https://raw.githubusercontent.com/xai-org/grok-build/main/schemas/grok-mcp-json.schema.json",
   "title": "MCP server configuration (.mcp.json)",
   "description": "Schema for <cwd..git-root>/.mcp.json, plugin .mcp.json files, and the mcpServers object embedded in ~/.claude.json and .cursor/mcp.json. Root type McpConfig has exactly one recognized field, \"mcpServers\" (serde rename of mcp_servers); any other top-level key is ignored by the loader and is therefore unconstrained here. Each entry under mcpServers is a McpServerConfig: the transport (Stdio or StreamableHttp) is #[serde(flatten)] over an untagged enum, so transport-specific and server-level keys live in the same JSON object. Server sources are merged in order: config.toml seeds the map (enabled=false blocks lower layers) -> plugins (or_insert) -> ~/.claude.json (or_insert) -> .mcp.json (or_insert, team baseline) -> client override (insert, always wins) -> managed header injection. Because the transport enum is untagged and no struct in the chain sets deny_unknown_fields, an object containing both \"command\" and \"url\" deserializes successfully as Stdio (the first variant tried; the extra \"url\" key is simply ignored) -- this schema accepts such documents too, matching that behavior exactly.",
   "type": "object",

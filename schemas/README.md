@@ -26,7 +26,9 @@ TOML parsing uses stdlib `tomllib`, Python >= 3.11). The script:
 
 1. Meta-validates all 18 schemas against draft-07.
 2. Validates every fixture: `fixtures/<name>/valid/*` must pass,
-   `fixtures/<name>/invalid/*` must fail.
+   `fixtures/<name>/invalid/*` must fail. `<name>` is the schema basename,
+   falling back to the basename without its `grok-` prefix; a missing
+   directory is a hard failure, never a silent skip.
 3. Validates the real in-repo corpus: the 5 hook examples under
    `crates/codegen/xai-grok-hooks/examples/hooks/*.json` and
    `crates/codegen/xai-grok-models/default_models.json`.
@@ -52,25 +54,29 @@ by the next sync).
 | Schema | Config file(s) / surface | Format | Tier / precedence notes |
 |---|---|---|---|
 | `grok-config.schema.json` | `~/.grok/config.toml`, `<cwd..git-root>/.grok/config.toml`, `~/.grok/managed_config.toml`, `/etc/grok/managed_config.toml` | TOML | 6-layer deep merge, see "config.toml layers" below |
-| `requirements-config.schema.json` | `~/.grok/requirements.toml`, `/etc/grok/requirements.toml`, macOS MDM `ai.x.grok`/`requirements_toml_base64` | TOML | Thin wrapper over `grok-config.schema.json` + `fail_closed` + `[[version_overrides]]`; highest 3 layers of the config merge |
+| `grok-requirements-config.schema.json` | `~/.grok/requirements.toml`, `/etc/grok/requirements.toml`, macOS MDM `ai.x.grok`/`requirements_toml_base64` | TOML | Thin wrapper over `grok-config.schema.json` + `fail_closed` + `[[version_overrides]]`; highest 3 layers of the config merge |
 | `grok-hooks.schema.json` | `~/.grok/hooks/*.json`, `<git-root>/.grok/hooks/*.json`, `~/.grok/hooks/imported-from-claude.json`, `.cursor/hooks.json`, `hooks` key of Claude settings | JSON | Additive; global sources load before project |
-| `mcp-json.schema.json` | `<cwd..git-root>/.mcp.json`, plugin `.mcp.json`, `mcpServers` of `~/.claude.json` and `.cursor/mcp.json` | JSON | Merged below `config.toml` `[mcp_servers]`, see "MCP server merge" below |
-| `plugin-manifest.schema.json` | `plugin.json`, `.grok-plugin/plugin.json`, `.claude-plugin/plugin.json` | JSON | Per-plugin |
-| `marketplace-index.schema.json` | `.grok-plugin/marketplace.json`, `.claude-plugin/marketplace.json`, `.grok/marketplace.json`, `.claude/marketplace.json` | JSON | Per-marketplace |
-| `plugin-catalog.schema.json` | `plugin-index.json` | JSON | Per-marketplace catalog |
-| `known-marketplaces.schema.json` | `~/.claude/plugins/known_marketplaces.json`, `extraKnownMarketplaces` value shape | JSON | Claude-compat, user tier |
-| `installed-plugins.schema.json` | `~/.claude/plugins/installed_plugins.json` | JSON | Claude-Code-owned state, read tolerantly |
-| `lsp-config.schema.json` | `~/.grok/lsp.json`, `<cwd>/.grok/lsp.json` | JSON | Project file gated by folder trust |
-| `campaigns-state.schema.json` | `~/.grok/campaigns_state.json` | JSON | Machine-written dismissal state |
-| `default-models.schema.json` | `crates/codegen/xai-grok-models/default_models.json` (embedded via `include_str!`) | JSON | Compiled in; not user-editable at runtime |
-| `remote-settings.schema.json` | Server settings payload (`GET /v1/settings`) | JSON | Server-controlled; informational |
-| `sandbox-config.schema.json` | `~/.grok/sandbox.toml`, `<project>/.grok/sandbox.toml` | TOML | Project file is additive-only over user file |
-| `pager-config.schema.json` | `~/.grok/pager.toml` | TOML | Hot-reloadable appearance only |
-| `trusted-folders.schema.json` | `~/.grok/trusted_folders.toml` | TOML | User tier only |
-| `claude-settings-compat.schema.json` | Consumed subset of `.claude/settings.json`, `.claude/settings.local.json`, `~/.claude/settings.json`, `~/.claude/settings.local.json` | JSON | local overrides plain; cwd > repo root > global |
-| `managed-settings-compat.schema.json` | `/Library/Application Support/ClaudeCode/managed-settings.json` (macOS), `/etc/claude-code/managed-settings.json` (Linux) | JSON | Admin-enforced; deny wins |
+| `grok-mcp-json.schema.json` | `<cwd..git-root>/.mcp.json`, plugin `.mcp.json`, `mcpServers` of `~/.claude.json` and `.cursor/mcp.json` | JSON | Merged below `config.toml` `[mcp_servers]`, see "MCP server merge" below |
+| `grok-plugin-manifest.schema.json` | `plugin.json`, `.grok-plugin/plugin.json`, `.claude-plugin/plugin.json` | JSON | Per-plugin |
+| `grok-marketplace-index.schema.json` | `.grok-plugin/marketplace.json`, `.claude-plugin/marketplace.json`, `.grok/marketplace.json`, `.claude/marketplace.json` | JSON | Per-marketplace |
+| `grok-plugin-catalog.schema.json` | `plugin-index.json` | JSON | Per-marketplace catalog |
+| `grok-known-marketplaces.schema.json` | `~/.claude/plugins/known_marketplaces.json`, `extraKnownMarketplaces` value shape | JSON | Claude-compat, user tier |
+| `grok-installed-plugins.schema.json` | `~/.claude/plugins/installed_plugins.json` | JSON | Claude-Code-owned state, read tolerantly |
+| `grok-lsp-config.schema.json` | `~/.grok/lsp.json`, `<cwd>/.grok/lsp.json` | JSON | Project file gated by folder trust |
+| `grok-campaigns-state.schema.json` | `~/.grok/campaigns_state.json` | JSON | Machine-written dismissal state |
+| `grok-default-models.schema.json` | `crates/codegen/xai-grok-models/default_models.json` (embedded via `include_str!`) | JSON | Compiled in; not user-editable at runtime |
+| `grok-remote-settings.schema.json` | Server settings payload (`GET /v1/settings`) | JSON | Server-controlled; informational |
+| `grok-sandbox-config.schema.json` | `~/.grok/sandbox.toml`, `<project>/.grok/sandbox.toml` | TOML | Project file is additive-only over user file |
+| `grok-pager-config.schema.json` | `~/.grok/pager.toml` | TOML | Hot-reloadable appearance only |
+| `grok-trusted-folders.schema.json` | `~/.grok/trusted_folders.toml` | TOML | User tier only |
+| `grok-claude-settings-compat.schema.json` | Consumed subset of `.claude/settings.json`, `.claude/settings.local.json`, `~/.claude/settings.json`, `~/.claude/settings.local.json` | JSON | local overrides plain; cwd > repo root > global |
+| `grok-managed-settings-compat.schema.json` | `/Library/Application Support/ClaudeCode/managed-settings.json` (macOS), `/etc/claude-code/managed-settings.json` (Linux) | JSON | Admin-enforced; deny wins |
 
-Fixtures live in `fixtures/<schema-basename>/{valid,invalid}/`. The root
+Fixtures live in `fixtures/<schema-basename>/{valid,invalid}/`; directory
+names are as authored, so a schema whose fixtures predate its `grok-`
+prefix resolves to the unprefixed directory (`grok-mcp-json.schema.json`
+-> `fixtures/mcp-json/`, but `grok-config.schema.json` ->
+`fixtures/grok-config/`). The root
 directory is `$GROK_HOME` if set, else `~/.grok`
 [src: crates/codegen/xai-grok-config/src/paths.rs:35-38]; the system tier is
 `/etc/grok/` [src: crates/codegen/xai-grok-config/src/paths.rs:72].
@@ -287,12 +293,12 @@ VS Code (JSON files), in `.vscode/settings.json`:
 {
   "json.schemas": [
     { "fileMatch": ["**/.grok/hooks/*.json"], "url": "./schemas/grok-hooks.schema.json" },
-    { "fileMatch": ["**/.mcp.json"], "url": "./schemas/mcp-json.schema.json" },
-    { "fileMatch": ["**/plugin.json", "**/.grok-plugin/plugin.json", "**/.claude-plugin/plugin.json"], "url": "./schemas/plugin-manifest.schema.json" },
-    { "fileMatch": ["**/marketplace.json"], "url": "./schemas/marketplace-index.schema.json" },
-    { "fileMatch": ["**/.claude/settings.json", "**/.claude/settings.local.json"], "url": "./schemas/claude-settings-compat.schema.json" },
-    { "fileMatch": ["**/managed-settings.json"], "url": "./schemas/managed-settings-compat.schema.json" },
-    { "fileMatch": ["**/.grok/lsp.json"], "url": "./schemas/lsp-config.schema.json" }
+    { "fileMatch": ["**/.mcp.json"], "url": "./schemas/grok-mcp-json.schema.json" },
+    { "fileMatch": ["**/plugin.json", "**/.grok-plugin/plugin.json", "**/.claude-plugin/plugin.json"], "url": "./schemas/grok-plugin-manifest.schema.json" },
+    { "fileMatch": ["**/marketplace.json"], "url": "./schemas/grok-marketplace-index.schema.json" },
+    { "fileMatch": ["**/.claude/settings.json", "**/.claude/settings.local.json"], "url": "./schemas/grok-claude-settings-compat.schema.json" },
+    { "fileMatch": ["**/managed-settings.json"], "url": "./schemas/grok-managed-settings-compat.schema.json" },
+    { "fileMatch": ["**/.grok/lsp.json"], "url": "./schemas/grok-lsp-config.schema.json" }
   ]
 }
 ```
@@ -311,12 +317,12 @@ path = "schemas/grok-config.schema.json"
 include = ["**/.grok/sandbox.toml"]
 
 [rule.schema]
-path = "schemas/sandbox-config.schema.json"
+path = "schemas/grok-sandbox-config.schema.json"
 ```
 
-The same pattern works for `pager.toml` -> `pager-config.schema.json`,
-`trusted_folders.toml` -> `trusted-folders.schema.json`, and
-`requirements.toml` -> `requirements-config.schema.json` (its relative `$ref`
+The same pattern works for `pager.toml` -> `grok-pager-config.schema.json`,
+`trusted_folders.toml` -> `grok-trusted-folders.schema.json`, and
+`requirements.toml` -> `grok-requirements-config.schema.json` (its relative `$ref`
 to `grok-config.schema.json` resolves as long as both files stay in the same
 directory).
 

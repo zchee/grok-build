@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/xai-org/grok-build/main/schemas/default-models.schema.json",
+  "$id": "https://raw.githubusercontent.com/xai-org/grok-build/main/schemas/grok-default-models.schema.json",
   "title": "Default Models Registry",
   "description": "`crates/codegen/xai-grok-models/default_models.json`, embedded at compile time via `include_str!` and parsed at runtime. Rust (`DefaultModels`/`DefaultModelEntry`) only reads `default`, `web_search`, `image_description`, `session_summary`, and `models[].model` — every other property below is part of the full on-disk key set (verified against the real file) that Rust ignores as forward-compatible unknown data, presumably consumed elsewhere (UI/model-picker code) rather than by this loader. A runtime assertion (not expressible in this schema) requires `default` to equal one of `models[].model`; enforce that invariant in the validation harness, not via JSON Schema alone. Model resolution order at runtime: CLI flag > ENV var > config.toml > remote settings > these defaults.",
   "type": "object",

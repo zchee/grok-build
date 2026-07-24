@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/xai-org/grok-build/main/schemas/marketplace-index.schema.json",
+  "$id": "https://raw.githubusercontent.com/xai-org/grok-build/main/schemas/grok-marketplace-index.schema.json",
   "title": "Grok Plugin Marketplace Index",
   "description": "Repo-level marketplace index. Config files: `.grok-plugin/marketplace.json` (preferred), `.grok-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `.claude-plugin/plugin.json` (checked in that order; first existing file wins). Deserialized into `MarketplaceIndex`. Forward-compatible: unknown top-level keys (e.g. `$schema`, `metadata`) are ignored by serde.",
   "type": "object",

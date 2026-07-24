@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/xai-org/grok-build/main/schemas/installed-plugins.schema.json",
+  "$id": "https://raw.githubusercontent.com/xai-org/grok-build/main/schemas/grok-installed-plugins.schema.json",
   "title": "Claude Code Installed Plugins Registry (compat)",
   "description": "`~/.claude/plugins/installed_plugins.json` — a Claude-Code-owned, Claude-Code-written compat file that grok-build only READS, never writes. Deserialized into `ClaudeInstalledPlugins { plugins: HashMap<String, Vec<ClaudeInstalledEntry>> }` by `read_claude_installed_plugins`. Grok-build models only the narrow subset of fields it actually consumes (installPath/scope/projectPath); the real Claude Code writer's schema is richer (it carries additional presentation/version metadata not read here), so this schema deliberately never sets `additionalProperties: false` at any level. Parse failure of a SINGLE array entry (e.g. a missing installPath) fails `serde_json::from_str` for the WHOLE document, and the reader soft-fails to an empty result set (logged via `tracing::warn!`) rather than erroring — in practice the real Claude Code writer always populates installPath, so this schema still marks it required.",
   "type": "object",

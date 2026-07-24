@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/xai-org/grok-build/main/schemas/managed-settings-compat.schema.json",
+  "$id": "https://raw.githubusercontent.com/xai-org/grok-build/main/schemas/grok-managed-settings-compat.schema.json",
   "title": "Claude-compat managed-settings.json (Grok Build consumed subset)",
   "description": "Describes ONLY the subset of Claude Code's vendor `managed-settings.json` (MDM/IT-administered policy file) keys that Grok Build (this codebase) actually reads. This is NOT the full Claude Code managed-settings schema; real managed-settings.json files may contain additional keys Grok Build ignores, so additionalProperties is never false anywhere in this schema. Platform paths: macOS `/Library/Application Support/ClaudeCode/managed-settings.json`, Linux `/etc/claude-code/managed-settings.json`. Supported surface today is a SINGLE file at that path; grok does NOT yet merge Claude's `managed-settings.d/` drop-ins, an MDM plist, or Windows registry delivery. `permissions.disableBypassPermissionsMode` from this file is deliberately NOT consulted for grok's own always-approve lock (grok must not inherit a host-wide Claude lockdown from this file); grok still honors this file's permission rules, MCP allow/deny lists, and marketplace allowlist. To hard-lock always-approve in grok itself, use a root-owned requirements.toml instead.",
   "x-source-rev": "9b8d35b46d959c042ea9aa31cbbebbd1f0c5c527",
