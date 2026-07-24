@@ -2,16 +2,18 @@
 
 JSON Schemas (draft-07) for every user-configurable file format consumed by the
 `grok` CLI/TUI in this repository. One schema per on-disk format, hand-authored
-from the serde model with `file:line` provenance in every property description
-(`[src: <path>:<line>]` suffixes). TOML formats get JSON Schemas too: Taplo,
-tombi, and eglot consume JSON Schema for TOML validation.
+from the serde model: every property documents its wire shape, its effective
+`default` where the code substitutes one, and its accepted values as an `enum`
+where an unknown value is rejected. Source `file:line` provenance is kept in
+this README rather than in the schema descriptions. TOML formats get JSON
+Schemas too: Taplo, tombi, and eglot consume JSON Schema for TOML validation.
 
 These schemas are **documentation-grade truth, not compiler-enforced**. No
 config struct in this tree derives `schemars::JsonSchema`, and this tree is
 periodically overwritten by "Synced from monorepo" commits, so the schemas live
-outside `crates/` and are validated by a standalone harness with a citation
-drift check. Each schema records the commit it was authored against in its
-`x-source-rev` field (currently `0f4d7c91b8b2b408333f6de1e8a76cb8eaa71899`).
+outside `crates/` and are validated by a standalone harness (fixtures plus the
+real in-repo corpus). Each schema records the commit it was authored against in its
+`x-source-rev` field (currently `9b8d35b46d959c042ea9aa31cbbebbd1f0c5c527`).
 
 ## Running the validation harness
 
@@ -28,17 +30,20 @@ TOML parsing uses stdlib `tomllib`, Python >= 3.11). The script:
 3. Validates the real in-repo corpus: the 5 hook examples under
    `crates/codegen/xai-grok-hooks/examples/hooks/*.json` and
    `crates/codegen/xai-grok-models/default_models.json`.
-4. Drift-checks every `[src: path:line]` citation (path exists, cited line
-   within file length). This is a staleness signal only; it never judges
-   semantic strictness.
+4. Drift-checks any `[src: path:line]` citation still embedded in a schema
+   (path exists, cited line within file length). Descriptions no longer carry
+   citations, so this now reports 0 checked; the check stays as a guard in
+   case one is reintroduced.
 5. Enforces the "no `additionalProperties: false`" gate (see Corrections #0).
 
 Human-readable log lines go to stderr; a machine-readable JSON summary goes to
 stdout; exit status is 0 iff everything passes.
 
-**Run `./validate.py` after every "Synced from monorepo" commit.** Stale
-citations mean the upstream types moved and the affected schema needs a manual
-re-check against its cited sources. There is no regeneration step: schemas are
+**Run `./validate.py` after every "Synced from monorepo" commit.** A sync can
+move the upstream types out from under a schema, and no check here detects a
+changed serde default or a renamed enum variant -- re-check the affected
+schemas by hand against the sources in Appendix A. There is no regeneration
+step: schemas are
 hand-authored (see the plan ADR: schemars derives in `crates/**` would be wiped
 by the next sync).
 
@@ -176,12 +181,13 @@ would encode. Each is deliberately reflected in the shipped schemas.
    fields instead.
 5. **S12 clamps are resolver-side and deliberately stricter than raw serde.**
    `DoomLoopRecoverySettings` bounds (`max_threshold` 2..=64, `max_retries`
-   0..=5), `goal_verifier_count`, `goal_classifier_max_runs`,
-   `goal_strategist_every`, and `goalRoleModel`'s
+   0..=5), `goal_verifier_count`, `goal_strategist_every`, and `goalRoleModel`'s
    `required: ["model", "agent_type"]` encode the post-parse clamping/dropping
    the resolver applies, not what serde would accept. This is a documented
-   plan choice; the drift check never flags it. `auto_compact_threshold_percent`
+   plan choice; the harness never flags it. `auto_compact_threshold_percent`
    is 0..=255 (exact serde u8), 0-100 only semantically.
+   `goal_classifier_max_runs` is the exception: its resolver floors at 1 with
+   deliberately no upper ceiling, so it carries `minimum` but no `maximum`.
 6. **Hook event names: 51 distinct spellings, not "3 per event".**
    `UserPromptSubmit` has NO camelCase spelling (only PascalCase, snake_case,
    and the `beforeSubmitPrompt` alias)
@@ -392,7 +398,7 @@ schema descriptions (e.g. `loader.rs` =
 
 ## Appendix B -- Environment variables
 
-Compiled at SOURCE_REV `0f4d7c91b8b2b408333f6de1e8a76cb8eaa71899`. Test-only
+Compiled at SOURCE_REV `9b8d35b46d959c042ea9aa31cbbebbd1f0c5c527`. Test-only
 knobs (`GROK_TEST_*`, `PTY_*`) are intentionally excluded.
 
 ### Centralized endpoint overrides (`crates/codegen/xai-grok-env/src/lib.rs`)
@@ -431,6 +437,14 @@ All are string URLs overriding compiled defaults:
   `GROK_GOAL_USE_CURRENT_MODEL_ONLY` [agent/config.rs:9685]
 - `GROK_SCHEDULER_BACKGROUND_LOOPS`, `GROK_LOGIN_ENV` [resolve/toolset.rs:196,65];
   `GROK_ASK_USER_QUESTION_TIMEOUT_ENABLED` / `_SECS` [ask_user_question/mod.rs:70]
+- `GROK_VIDEO_GEN` (video_gen tool; env > `[features]` config > remote >
+  default true) [agent/config.rs:2611]; `GROK_IMAGE_EDIT_MODEL_OVERRIDE`
+  (image_edit model override; env > config > remote > tool's own default)
+  [agent/config.rs:2640]
+- `GROK_SLASH_COMMAND_TAGS` (slash-dropdown tags, JSON object; env > local
+  `[slash_command_tags]` > remote, merged per key) [util/config/tips.rs:153];
+  `GROK_VOICE_CAPTURE` (`=inprocess` forces in-process mic capture over the
+  default helper subprocess) [voice capture_subprocess.rs:33,58-59]
 
 ### Compaction
 
@@ -454,6 +468,12 @@ All are string URLs overriding compiled defaults:
   `GROK_OPEN_DASHBOARD_AT_STARTUP` [event_loop.rs:1652];
   `GROK_AGENT_DASHBOARD` [dashboard/mod.rs:89]; `GROK_HUNK_TRACKER`
   [app/mod.rs:569]; `GROK_SUBSCRIPTION_WATCH_INTERVAL_SECS` [subscription.rs:67]
+- `GROK_PRIVACY_NOTICE_ROLLOUT` (coding-data upsell banner gate; env >
+  remote > default false; env re-wins over a later remote push too)
+  [event_loop.rs:868, acp_handler/settings.rs:124];
+  `GROK_PRIVACY_BANNER_RESHOW_DAYS` (days before the dismissed banner
+  re-shows; env > remote; unset/0 both mean never re-show)
+  [event_loop.rs:875, acp_handler/settings.rs:128]
 - Terminal detection (std): `NO_COLOR`, `TERM_PROGRAM`, `TERM`,
   `ITERM_SESSION_ID`/`PROFILE`, `WEZTERM_VERSION`, `KITTY_WINDOW_ID`,
   `ALACRITTY_SOCKET` [markdown colors.rs:56-129]; `SHELL`, `EDITOR`, `VISUAL`,
@@ -507,6 +527,14 @@ All are string URLs overriding compiled defaults:
 - `GROK_LEADER_SOCKET` [shell leader/lock.rs:44]; `GROK_AGENT_SECRET`
   (clap env for `agent serve --secret`) [cli.rs:356]
 - `GROK_VERSION` (build-time) [version lib.rs:7]
+- `GROK_MINIMUM_VERSION` / `GROK_MAXIMUM_VERSION` (soft update floor/ceiling;
+  folded semver-max/-min across managed/user/requirements layers plus env --
+  env only tightens a bound, never loosens it; unset = no bound)
+  [resolve/version.rs:58-59]
+- `GROK_REQUIRED_MINIMUM_VERSION` / `GROK_REQUIRED_MAXIMUM_VERSION` (hard
+  org floor/ceiling, same semver folding; refuses startup and clamps update
+  targets outside the range; a contradictory range falls back to
+  managed-only bounds, then fails open) [resolve/version.rs:60-61]
 - Note: `GROK_CHANNEL` is NOT a runtime var (test-only); the release channel is
   set via `grok update --alpha/--stable/--enterprise`
 
